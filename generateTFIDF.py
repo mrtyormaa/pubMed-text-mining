@@ -4,7 +4,7 @@ __author__ = 'mrtyormaa'
 # Imports
 #
 from gensim import corpora
-from gensim.corpora import MmCorpus, Dictionary
+from gensim.corpora import MmCorpus
 from gensim.models import TfidfModel
 import glob
 import os
@@ -16,6 +16,7 @@ import logging
 #
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 logger = logging.getLogger('text_mining_logger')
+
 #
 # We will be appending all our documents to this array.
 #
@@ -101,14 +102,21 @@ id_to_word = dictionary.token2id
 corpus = [dictionary.doc2bow(text) for text in texts]
 
 #
-# store to disk, for later use
+# Store to disk, for later use.
 #
 logger.info("Saving the corpus.")
 corpora.MmCorpus.serialize('files/pubMed-corpus.mm', corpus)
 
-mm = MmCorpus('files/pubMed-corpus.mm')
-logger.info("Computing the TFIDF Matrix.")
-tfidf = TfidfModel(mm, id2word=id_to_word, dictionary=dictionary, normalize=True)
+#
+# Load the corpus.
+#
+corpus_matrix = MmCorpus('files/pubMed-corpus.mm')
 
+logger.info("Computing the TFIDF Matrix.")
+tfidf = TfidfModel(corpus_matrix, id2word=id_to_word, dictionary=dictionary, normalize=True)
+
+#
+# Store the TF-IDF so that we don't have to calculate it every time.
+#
 logger.info("Saving the TFIDF.")
-MmCorpus.serialize('files/pubMed-tfidf.mm', tfidf[mm], progress_cnt=10000)
+MmCorpus.serialize('files/pubMed-tfidf.mm', tfidf[corpus_matrix], progress_cnt=10000)

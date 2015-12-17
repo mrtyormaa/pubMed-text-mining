@@ -1,5 +1,8 @@
 __author__ = 'mrtyormaa'
 
+#
+# Imports
+#
 from nltk.compat import raw_input
 from scipy.io import mmread
 import operator
