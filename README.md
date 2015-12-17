@@ -15,3 +15,6 @@ There are two important steps to run the application. They are as follows:
 - The second and most important part is the json creation based on the user input. The user is asked to input two things. First, the word for which co-occcurance needs to be determined. And second, the number of layers the user wants to generate. This steps needs to executed everytime co-occurence for a new word is generated.
 
 After the computations, we need to used visualization tools to see the application. For that Hierachie library has been used.  I am automatically generatting the JSON file and storing it in the required location. But if you move the visualization to a different location, the generated JSON file should be placed inside visualizaion/app/data folder. After that the index.html can be open by a localhost server.
+
+##Understanding the Code
+I have extensively commented the code in order to explain each step. In addition, I have also submitted the notebook file. Please refer these documents for further information.
