@@ -1,0 +1,13 @@
+{
+  "name": "Big Data Final",
+  "version": "0.0.1",
+  "description": "Word co-occurance for a given word in pubMed database",
+  "private": true,
+  "author": "",
+  "dependencies": {
+    "angular": "1.2.x",
+    "angular-route": "1.2.x",
+    "d3":"latest",
+    "underscore":"latest"
+  }
+}
