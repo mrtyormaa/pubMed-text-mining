@@ -94,9 +94,9 @@ logger.info("Saving Dictionary.")
 dictionary.save('files/pubMed-dictionary.dict')
 
 #
-# print(dictionary.token2id)
+# Generate tge dictionary for word id pair.
 #
-id2word = dictionary.token2id
+id_to_word = dictionary.token2id
 
 corpus = [dictionary.doc2bow(text) for text in texts]
 
@@ -108,7 +108,7 @@ corpora.MmCorpus.serialize('files/pubMed-corpus.mm', corpus)
 
 mm = MmCorpus('files/pubMed-corpus.mm')
 logger.info("Computing the TFIDF Matrix.")
-tfidf = TfidfModel(mm, id2word=id2word, dictionary=dictionary, normalize=True)
+tfidf = TfidfModel(mm, id2word=id_to_word, dictionary=dictionary, normalize=True)
 
 logger.info("Saving the TFIDF.")
 MmCorpus.serialize('files/pubMed-tfidf.mm', tfidf[mm], progress_cnt=10000)

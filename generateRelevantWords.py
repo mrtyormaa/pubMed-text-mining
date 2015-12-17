@@ -22,18 +22,18 @@ dictionary = corpora.Dictionary.load('files/pubMed-dictionary.dict')
 #
 # Let's tokenize the dictionary and get the word <-> id pairs.
 #
-id2word = dictionary.token2id
+word_to_id = dictionary.token2id
 
 #
 # inverse dictionary. This is easy for future lookups of ids
 #
-word2id = {val: key for key, val in id2word.items()}
+id_to_word = {val: key for key, val in word_to_id.items()}
 
 #
 # Retrieve the TFIDF
 #
 logger.info("Loading the TFIDF.")
-file = mmread('files/pubMed-tfidf.mm')
+tfidf_matrix = mmread('files/pubMed-tfidf.mm')
 
 #
 # User input
@@ -43,51 +43,48 @@ user_word = raw_input()
 print("How many layers of output do you want to generate(0-5): ")
 level = int(raw_input())
 
-
 #
 # This method returns all the documents containing the given word.
 #
 def getDocumentsWithParam(param):
     docs = []
-    id = id2word[param]
+    id = word_to_id[param]
     i = 0
-    for col in file.col:
+    for col in tfidf_matrix.col:
         if col == id:
-            docs.append(file.row[i])
+            docs.append(tfidf_matrix.row[i])
         i += 1
     return docs
-
 
 #
 # This method returns all the words in the document.
 #
 def getWordsAndTFIDF(docId):
-    data = []
+    word_list_per_document = []
     i = 0
-    for row in file.row:
+    for row in tfidf_matrix.row:
         if docId == row:
-            data.append([file.col[i], file.data[i]])
-        i += 1
-    return data
-
+            word_list_per_document.append([tfidf_matrix.col[i], tfidf_matrix.data[i]])
+        i =i + 1
+    return word_list_per_document
 
 #
 # This is a recursive method used to generate the relevant words
 #
-def generateRelevantWords(param, l):
+def generateRelevantWords(param, lev):
     docs = getDocumentsWithParam(param)
     relevant_words = {}
     for doc in docs:
         data = getWordsAndTFIDF(doc)
-        for d in data:
+        for dat in data:
             #
             # Ignore already visited words. This is to avoid repetition of words.
             #
-            if word2id[d[0]] in visited_words:
+            if id_to_word[dat[0]] in visited_words:
                 continue
-            if not d[0] in relevant_words:
-                relevant_words[d[0]] = 0.0
-            relevant_words[d[0]] += d[1]
+            if not dat[0] in relevant_words:
+                relevant_words[dat[0]] = 0.0
+            relevant_words[dat[0]] += dat[1]
     #
     # One of the base cases of recursion. If we don't find relevant words, return null array.
     #
@@ -105,22 +102,22 @@ def generateRelevantWords(param, l):
     word_tfidf_tuples = word_tfidf_tuples[0:5]
 
     for word in word_tfidf_tuples:
-        visited_words.append(word2id[word[0]])
+        visited_words.append(id_to_word[word[0]])
     tree = []
 
     for word in word_tfidf_tuples:
         current_word = []
-        current_word.append(word2id[word[0]])
+        current_word.append(id_to_word[word[0]])
         topic = {}
         topic['words'] = current_word
         topic['name'] = 'Topic_0'
-        if (l == level - 1):
+        if (lev == level - 1):
             tree.append(topic)
         else:
             #
             # Go another deeper level.
             #
-            result = generateRelevantWords(word2id[word[0]], l + 1)
+            result = generateRelevantWords(id_to_word[word[0]], lev + 1)
             if result:
                 topic['children'] = result
             tree.append(topic)
