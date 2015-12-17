@@ -18,3 +18,6 @@ After the computations, we need to used visualization tools to see the applicati
 
 ##Understanding the Code
 I have extensively commented the code in order to explain each step. In addition, I have also submitted the notebook file. Please refer these documents for further information.
+
+##Notebook
+The notebook was created using Jupyter. The notebook is in the root directory by the name **pubMed-text-mining.ipynb**. It can be directly viewed in github or it can be viewed by running a localhost Hupyter instance.
