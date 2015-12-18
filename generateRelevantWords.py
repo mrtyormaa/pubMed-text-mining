@@ -49,7 +49,7 @@ level = int(raw_input())
 #
 # This method returns all the documents containing the given word.
 #
-def getDocumentsWithParam(param):
+def fetchAllDocuments(param):
     docs = []
     id = word_to_id[param]
     i = 0
@@ -62,7 +62,7 @@ def getDocumentsWithParam(param):
 #
 # This method returns all the words in the document.
 #
-def getWordsAndTFIDF(docId):
+def fetchAllWords(docId):
     word_list_per_document = []
     i = 0
     for row in tfidf_matrix.row:
@@ -75,10 +75,10 @@ def getWordsAndTFIDF(docId):
 # This is a recursive method used to generate the relevant words
 #
 def generateRelevantWords(param, lev):
-    docs = getDocumentsWithParam(param)
+    docs = fetchAllDocuments(param)
     relevant_words = {}
     for doc in docs:
-        data = getWordsAndTFIDF(doc)
+        data = fetchAllWords(doc)
         for dat in data:
             #
             # Ignore already visited words. This is to avoid repetition of words.
