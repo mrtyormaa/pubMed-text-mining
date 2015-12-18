@@ -58,6 +58,7 @@ def fetchAllDocuments(param):
             docs.append(tfidf_matrix.row[i])
         i += 1
     return docs
+# ** End of Function **
 
 #
 # This method returns all the words in the document.
@@ -70,6 +71,7 @@ def fetchAllWords(docId):
             word_list_per_document.append([tfidf_matrix.col[i], tfidf_matrix.data[i]])
         i =i + 1
     return word_list_per_document
+# ** End of Function **
 
 #
 # This is a recursive method used to generate the relevant words
@@ -125,7 +127,7 @@ def generateRelevantWords(param, lev):
                 topic['children'] = result
             tree.append(topic)
     return tree
-
+# ** End of Function **
 
 json_response = {}
 visited_words = []
