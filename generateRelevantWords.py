@@ -52,11 +52,11 @@ level = int(raw_input())
 def fetchAllDocuments(param):
     docs = []
     id = word_to_id[param]
-    i = 0
+    counter = 0
     for col in tfidf_matrix.col:
         if col == id:
-            docs.append(tfidf_matrix.row[i])
-        i += 1
+            docs.append(tfidf_matrix.row[counter])
+        counter += 1
     return docs
 # ** End of Function **
 
@@ -65,11 +65,11 @@ def fetchAllDocuments(param):
 #
 def fetchAllWords(docId):
     word_list_per_document = []
-    i = 0
+    counter = 0
     for row in tfidf_matrix.row:
         if docId == row:
-            word_list_per_document.append([tfidf_matrix.col[i], tfidf_matrix.data[i]])
-        i =i + 1
+            word_list_per_document.append([tfidf_matrix.col[counter], tfidf_matrix.data[counter]])
+        counter =counter + 1
     return word_list_per_document
 # ** End of Function **
 
